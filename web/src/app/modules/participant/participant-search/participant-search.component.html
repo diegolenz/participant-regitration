@@ -1,0 +1,82 @@
+
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="card">
+            <mat-form-field >
+                <mat-label>Pesquise pelo nome</mat-label>
+                <input [(ngModel)]="nameSearch" matInput [type]="'text'">
+                <button mat-icon-button matSuffix (click)="load()">
+                    <mat-icon>search</mat-icon>
+                </button>
+            </mat-form-field>
+            
+            <div class="card-header card-header-danger card-header-icon">
+                <div class="row col-12">
+                    <h4 class="card-title">Gerenciamento de participantes - Consulta</h4>
+                </div>
+
+            </div>
+            <div class="card-body">
+                <table mat-table [dataSource]="dataSource">
+                    <ng-container matColumnDef="select">
+                        <th mat-header-cell *matHeaderCellDef>
+                            <mat-checkbox (change)="$event ? toggleAllRows() : null"
+                                [checked]="selection.hasValue() && isAllSelected()"
+                                [indeterminate]="selection.hasValue() && !isAllSelected()">
+                            </mat-checkbox>
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            <mat-checkbox (click)="$event.stopPropagation()"
+                                (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+                            </mat-checkbox>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="code">
+                        <th mat-header-cell *matHeaderCellDef> Código </th>
+                        <td mat-cell *matCellDef="let element"> {{element.code}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef> Nome </th>
+                        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="cpfCnpj">
+                        <th mat-header-cell *matHeaderCellDef> cpf/Cnpj </th>
+                        <td mat-cell *matCellDef="let element"> {{element.cpfCnpj}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="phoneNumber">
+                        <th mat-header-cell *matHeaderCellDef> Telefone </th>
+                        <td mat-cell *matCellDef="let element"> {{element.phoneNumber}} </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+
+                <mat-paginator *ngIf="paginator" (page)="load($event)" [pageSizeOptions]="[5, 10, 20]" 
+                    [length]="paginator.totalElements"
+                    [pageSize]="paginator.size"
+                    [pageSizeOptions]="[5, 10, 20, 50, 100]"
+                    [pageIndex]="this.paginator.number"
+                    showFirstLastButtons
+                    aria-label="Select page of periodic elements">
+                </mat-paginator>
+            </div>
+            <div class="card-footer d-flex justify-content-end">
+                    <div class="btn-group mr-2" role="group" aria-label="First group">
+                        <button class="btn" mat-flat-button color="primary" (click)="generatePdf()">Exportar em PDF</button>
+                    </div>
+                    <div class="btn-group mr-2" role="group" aria-label="Second group">
+                        <button class="btn" mat-flat-button [disabled]="selection.isEmpty()" color="primary" (click)="deleteSelected()">Excluir</button>
+                    </div>
+                    <div class="btn-group" role="group" aria-label="Third group">
+                        <button class="btn" mat-flat-button color="primary"
+                                (click)="goToManager()">Adicionar</button>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>

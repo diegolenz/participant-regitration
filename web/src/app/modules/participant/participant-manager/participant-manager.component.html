@@ -1,0 +1,153 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <form [formGroup]="form">
+            <div class="card">
+                <div class="card-header card-header-danger card-header-icon">
+                    <div class="row col-12">
+                        <!--    <span class="nav-link btn btn-link" (click)="onBack()">
+                            <i class="material-icons btn-default">arrow_back</i>
+                        </span> -->
+                        <h4 class="card-title" *ngIf="form.value.code">Gerenciamento de participantes - Adicionar</h4>
+                        <h4 class="card-title" *ngIf="!form.value.code">Gerenciamento de participantes - Alterar</h4>
+                    </div>
+
+                </div>
+                <div class="card-body">
+
+                    <div class="form-group row">
+                        <div class="col-md-2">
+                            <mat-form-field>
+                                <input type="text" matInput placeholder="Código" formControlName="code">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-2">
+                            <mat-form-field>
+                                <input type="text" matInput placeholder="Código externo" formControlName="externalCode">
+                            </mat-form-field>
+                        </div>
+
+                        <mat-form-field class="form-group col-4">
+                            <input matInput placeholder="Nome" formControlName="name" required />
+                            <!--   <mat-error *ngIf="isFieldValid(form, 'name')">
+                                        {{ 'MODULES.PROJECTS.ROOM.FORM_ERRORS.NAME_REQUIRED' | translate }}
+                                        <strong>{{ 'COMMON.FORM_ERRORS._REQUIRED' | translate }}</strong>
+                                    </mat-error> -->
+
+                        </mat-form-field>
+                        <mat-form-field class="form-group col-3 mr-2">
+                            <input matInput placeholder="Email" formControlName="mail" />
+                        </mat-form-field>
+
+                        <mat-form-field class="form-group col-3 mr-2">
+                            <input matInput placeholder="cpfCnpj" formControlName="cpfCnpj" [required]="form.get('notAplicateCnpjCpf')?.value == false" />
+                        </mat-form-field>
+
+                        <div class="col-md-2">
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox"
+                                        formControlName="notAplicateCnpjCpf">
+                                    Não se aplica
+                                    <span class="form-check-sign">
+                                        <span class="check"></span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <mat-form-field>
+                                <mat-label>Sexo</mat-label>
+                                <mat-select formControlName="gender">
+                                    <mat-option *ngFor="let g of genders" [value]="g.value">
+                                        {{g.label}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-4">
+                            <mat-form-field>
+                                <mat-label>Estado civil</mat-label>
+                                <mat-select formControlName="marital">
+                                    <mat-option *ngFor="let g of maritals" [value]="g.value">
+                                        {{g.label}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <mat-form-field class="form-group col-3 mr-2">
+                            <input matInput placeholder="Conjuge" formControlName="spouse" />
+                        </mat-form-field>
+
+                        <mat-form-field class="form-group col-3 mr-2">
+                            <input matInput placeholder="Documento" formControlName="document" />
+                        </mat-form-field>
+
+                        <mat-form-field class="form-group col-3 mr-2">
+                            <input matInput placeholder="Telefone/celular" formControlName="phoneNumber" required />
+                        </mat-form-field>
+
+
+                        <div class="col-md-2">
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" formControlName="status">
+                                    Ativo
+                                    <span class="form-check-sign">
+                                        <span class="check"></span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" formControlName="tokenSms">
+                                    Habilitar envio de token por SMS
+                                    <span class="form-check-sign">
+                                        <span class="check"></span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" formControlName="exposedPerson">
+                                    Pessoa exposta
+                                    <span class="form-check-sign">
+                                        <span class="check"></span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" formControlName="digitalSignature">
+                                    Assinatura digital
+                                    <span class="form-check-sign">
+                                        <span class="check"></span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="card-footer d-flex justify-content-end">
+            <div class="btn-group mr-2" role="group">
+                <button mat-raised-button type="button" class="btn btn-cancel"
+                    (click)="onBack()">Cancelar</button>
+            </div>
+            <div class="btn-group mr-2" role="group">
+                <button [disabled]="form.invalid" mat-raised-button type="button" class="btn btn-fill btn-primary"
+                    [disabled]="loading" (click)="onSave()">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
