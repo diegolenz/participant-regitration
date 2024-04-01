@@ -11,9 +11,11 @@ services:
       - api
   api:
     image: 'docker-spring-boot-postgres:latest'
+    container_name: api
     build:
       context: ./api
-    container_name: api
+    ports:
+      - "8081:8081"
     depends_on:
       - postgres_db
     environment:
