@@ -11,6 +11,7 @@ import participantManagerApi.domain.repository.ParticipantRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -19,7 +20,12 @@ public class ParticipantService {
     @Autowired
     private ParticipantRepository participantRepository;
 
-    public void insert(ParticipantRequest request) {
+    public void insert(ParticipantRequest request) throws Exception {
+        if (Objects.isNull(request))
+            throw new Exception("Participante não pode ser nulo");
+        if (Objects.isNull(request.getCpfCnpj()) && !request.getNotAplicateCnpjCpf() )
+            throw new Exception("Participante não pode ser nulo");
+
         participantRepository.save(new Participant(request));
     }
 

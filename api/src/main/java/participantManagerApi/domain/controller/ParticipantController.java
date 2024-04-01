@@ -26,11 +26,8 @@ public class ParticipantController {
     @GetMapping("/find")
     private ResponseEntity<Page<ParticipantResponse>> findAll(@RequestParam(name = "name", required = false) String name,
                                                               @PageableDefault(size = 25, sort = "name") Pageable pageable) {
-        Page<ParticipantResponse> participants = this.participantService.find(name, pageable);
 
-        if (CollectionUtils.isEmpty(participants.getContent())) {
-            return ResponseEntity.notFound().build();
-        }
+        Page<ParticipantResponse> participants = this.participantService.find(name, pageable);
 
         return ResponseEntity.ok(participants);
     }
@@ -47,7 +44,11 @@ public class ParticipantController {
 
     @PostMapping("/insert")
     private ResponseEntity insert(@RequestBody ParticipantRequest participantRequest) {
-        participantService.insert(participantRequest);
+        try {
+            participantService.insert(participantRequest);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
         return ResponseEntity
                 .ok().build();
     }

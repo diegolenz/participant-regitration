@@ -8,6 +8,9 @@ import { ParticipantService } from '../../services/participant-service';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { Page } from '../../model/http';
+import jsPDF from 'jspdf';
+import autoTable, { RowInput } from 'jspdf-autotable';
+import { CellDef } from '@angular/cdk/table';
 
 @Component({
   selector: 'app-participant-search',
@@ -30,12 +33,12 @@ export class ParticipantSearchComponent implements AfterViewInit, OnDestroy {
     private participantService: ParticipantService,
     private toastr: ToastrService
   ) {
-    
-    
+
+
   }
-  
+
   ngOnDestroy(): void {
-    
+
   }
 
 
@@ -76,10 +79,32 @@ export class ParticipantSearchComponent implements AfterViewInit, OnDestroy {
 
 
   generatePdf() {
-    if (this.dataSource.data?.length <= 0) {
-      this.toastr.info('Em desenvolvimento');
+    if (this.selection.isEmpty()) {
+      this.toastr.error('Selecione ao menos um participantes para excluir');
       return;
     }
+
+    const rows = [];
+    for (var i = 0; i < this.selection?.selected.length; i++) {
+      let p: ParticipantResponse = this.selection.selected[i];
+
+      const value = [
+        p.code?.toString(), p.name, p.cpfCnpj?.toString(), p.phoneNumber ? p.phoneNumber.toString() : ''
+      ]
+
+      rows.push(value);
+    }
+
+    this.dataSource.data.map(a => { a.code, a.cpfCnpj, a.name, a.phoneNumber })
+
+    const doc = new jsPDF();
+    doc.text("FeepWeb", 10, 10);
+    autoTable(doc, {
+      head: [['Código', 'Nome', 'cpf/Cnpj', 'telefone']],
+      body: rows
+    })
+
+    doc.save("participants.pdf");
   }
 
   deleteSelected() {
@@ -119,17 +144,4 @@ export class ParticipantSearchComponent implements AfterViewInit, OnDestroy {
 
     this.selection.select(...this.dataSource.data);
   }
-
-    /* this.query.page = pageInfo.page - 1;
-     this.search();
-   } */
- 
-  /*  changePageSize(sizeInfo) {
-   }
- 
-   changeSort(sortInfo) {
- 
-     this.query.sort = [`${sortInfo.column.name},${sortInfo.newValue}`]
-     this.search();
-   } */
 }

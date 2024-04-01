@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { genderTypes, maritalTypes, EnumType } from '../model/enum';
 import { ParticipantService } from '../../services/participant-service';
@@ -33,9 +33,9 @@ export class ParticipantManagerComponent {
       },
       status: [true],
       name: [null, Validators.required],
-      externalCode: [null, Validators.required],
+      externalCode: [null],
       mail: [null],
-      phoneNumber: [null, Validators.required],
+      phoneNumber: [null],
       cpfCnpj: [null],
       gender: [null],
       marital: [null],
@@ -59,6 +59,10 @@ export class ParticipantManagerComponent {
           this.loading = false;
         }
       });
+  }
+
+  isFieldValid(form: AbstractControl, field: string) {
+    return !form.get(field)?.valid && form.get(field)?.touched;
   }
 
   loadParticipant(code: number) {

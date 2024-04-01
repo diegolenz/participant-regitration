@@ -17,6 +17,7 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { HttpClientModule } from '@angular/common/http';
 import { ParticipantService } from '../services/participant-service';
+import {MatTabsModule} from '@angular/material/tabs'
 /* import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; */
 
@@ -39,7 +40,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
     MatCheckboxModule,
     MatOptionModule,
     MatSelectModule,
-    HttpClientModule
+    HttpClientModule,
+    MatTabsModule
   ],
   providers: [provideRouter(participantRoutes), ParticipantService],
 })

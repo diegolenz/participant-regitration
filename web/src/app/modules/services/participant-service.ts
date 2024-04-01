@@ -23,7 +23,6 @@ export class ParticipantService {
         const params = new HttpParams()
         params.set('name', name);
         params.set('page', page?.pageIndex);
-        //params.set('pageSize', page?.pageSize);
         params.set('size', page?.pageSize);
         return this.http.get(`${this.apiURL}/participant/find?name=${name}&page=${page?.pageIndex}&size=${page?.pageSize}`, {
            params: params

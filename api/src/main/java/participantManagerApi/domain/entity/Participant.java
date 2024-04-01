@@ -5,6 +5,7 @@ import lombok.Data;
 import participantManagerApi.domain.dto.ParticipantRequest;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -21,7 +22,8 @@ public class Participant {
     private Long code;
     @Column(name = "status")
     private Boolean status;
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
+    @NotEmpty
     private String name;
     @Column(name = "external_code")
     private String externalCode;
